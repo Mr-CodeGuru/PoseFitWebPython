@@ -1,0 +1,91 @@
+# Bicep Curl Exercise Definition
+# Bilateral repetition exercise - left and right arms counted independently
+
+name: bicep_curl
+display_name: "Bicep Curl"
+type: repetition
+bilateral: true
+
+target_muscles:
+  - Biceps
+  - Brachialis
+equipment: "Dumbbells"
+difficulty: beginner
+default_reps: 10
+default_sets: 3
+rest_time: "60 seconds"
+benefits:
+  - "Builds bicep strength"
+  - "Improves arm definition"
+description: "Classic bicep curl with controlled tempo"
+
+sides:
+  - left
+  - right
+
+# Angle definitions
+angles:
+  left:
+    points: [left_shoulder, left_elbow, left_wrist]
+    description: "Left arm elbow angle"
+  
+  right:
+    points: [right_shoulder, right_elbow, right_wrist]
+    description: "Right arm elbow angle"
+
+  primary:
+    points: [left_shoulder, left_elbow, left_wrist]
+    description: "Left arm elbow angle"
+  
+  right_arm:
+    points: [right_shoulder, right_elbow, right_wrist]
+    description: "Right arm elbow angle"
+
+# State machine
+state_order:
+  - flex
+  - curl
+  - down
+
+states:
+  down:
+    condition: "angle > 150"
+    description: "Arm straight - starting position"
+  
+  curl:
+    condition: "angle > 50 and angle <= 150"
+    description: "Curling upward phase"
+  
+  flex:
+    condition: "angle <= 50"
+    description: "Peak contraction - rep counted"
+
+# Counter rule
+counter:
+  trigger_state: flex
+  from_state: curl
+
+# Temporal filter (seconds)
+min_rep_duration: 0.8
+
+# Form feedback rules: triggers only when nearing peak curl without full squeeze
+feedback:
+  partial_rep:
+    condition: "angle > 50 and angle <= 80"
+    message: "Squeeze more at the top of the curl!"
+    severity: info
+
+# Calibration
+calibration:
+  enabled: true
+  reps: 2
+
+# Visualization
+visualization:
+  lines:
+    - points: [left_shoulder, left_elbow]
+      color: [0, 0, 255]
+      thickness: 4
+    - points: [left_elbow, left_wrist]
+      color: [0, 0, 255]
+      thickness: 4

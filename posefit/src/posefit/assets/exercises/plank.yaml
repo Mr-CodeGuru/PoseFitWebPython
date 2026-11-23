@@ -1,0 +1,105 @@
+# Plank Exercise Definition
+# Duration-based isometric hold exercise
+
+name: plank
+display_name: "Plank"
+type: duration
+
+# Meta information
+target_muscles:
+  - Core
+  - Shoulders
+  - Back
+equipment: "Bodyweight"
+difficulty: beginner
+default_reps: 3
+default_sets: 1
+target_duration: 30
+rest_time: "30 seconds"
+benefits:
+  - "Strengthens core muscles"
+  - "Improves posture"
+  - "Builds shoulder stability"
+description: "Isometric plank hold for core strength"
+
+# Duration settings
+hold_state: hold
+
+# Angle definitions
+angles:
+  body_line:
+    points: [left_shoulder, left_hip, left_ankle]
+    description: "Body alignment line angle"
+  
+  arm_angle:
+    points: [left_shoulder, left_elbow, left_wrist]
+    description: "Arm angle"
+
+# Finite State Machine (FSM)
+state_order:
+  - hold
+  - setup
+  - rest
+
+states:
+  rest:
+    condition: "body_line_angle < 140"
+    description: "Resting position on floor"
+  
+  setup:
+    condition: "body_line_angle >= 140 and body_line_angle < 165"
+    description: "Setup preparation"
+  
+  hold:
+    condition: "body_line_angle >= 165"
+    description: "Plank hold position - timer active"
+
+# Form feedback rules
+feedback:
+  hips_too_high:
+    condition: "body_line_angle > 185"
+    message: "Hips are piked too high! Lower hips to align with shoulders."
+    severity: warning
+  
+  hips_sagging:
+    condition: "body_line_angle < 165 and body_line_angle > 140"
+    message: "Hips are sagging! Squeeze your core and glutes to maintain a straight line."
+    severity: warning
+  
+  good_form:
+    condition: "body_line_angle >= 170 and body_line_angle <= 180"
+    message: "Great form! Hold steady."
+    severity: info
+
+calibration:
+  enabled: false
+
+smoothing:
+  enabled: true
+  window: 5
+
+visualization:
+  lines:
+    - points: [left_shoulder, left_hip]
+      color: [0, 255, 0]
+      thickness: 3
+    - points: [left_hip, left_ankle]
+      color: [0, 255, 0]
+      thickness: 3
+    - points: [left_shoulder, left_elbow]
+      color: [0, 200, 255]
+      thickness: 2
+    - points: [left_elbow, left_wrist]
+      color: [0, 200, 255]
+      thickness: 2
+  
+  circles:
+    - point: left_shoulder
+      color: [0, 255, 0]
+      radius: 8
+    - point: left_hip
+      color: [0, 255, 0]
+      radius: 8
+    - point: left_ankle
+      color: [0, 255, 0]
+      radius: 8

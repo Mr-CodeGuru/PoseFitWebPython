@@ -1,0 +1,57 @@
+# Leg Raise Exercise Definition
+name: leg_raise
+display_name: "Leg Raise"
+type: repetition
+
+target_muscles:
+  - Lower Abs
+  - Hip Flexors
+equipment: "Bodyweight"
+difficulty: intermediate
+default_reps: 12
+default_sets: 3
+description: "Lying leg raises for lower abdominal strength"
+
+angles:
+  primary:
+    points: [left_shoulder, left_hip, left_knee]
+    description: "Hip flexion angle"
+
+state_order:
+  - up
+  - raise
+  - down
+
+states:
+  down:
+    condition: "angle > 160"
+    description: "Legs extended flat on floor"
+  
+  raise:
+    condition: "angle > 100 and angle <= 160"
+    description: "Raising legs upward"
+  
+  up:
+    condition: "angle <= 100"
+    description: "Legs vertical at 90 degrees - rep counted"
+
+counter:
+  trigger_state: up
+  from_state: raise
+
+min_rep_duration: 1.0
+
+feedback:
+  momentum:
+    condition: "angle < 80"
+    message: "Control the movement with core - avoid swinging legs!"
+    severity: warning
+
+visualization:
+  lines:
+    - points: [left_hip, left_knee]
+      color: [128, 0, 128]
+      thickness: 4
+    - points: [left_knee, left_ankle]
+      color: [128, 0, 128]
+      thickness: 4

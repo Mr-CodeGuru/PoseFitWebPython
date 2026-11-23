@@ -1,0 +1,123 @@
+# Lunge Exercise Definition
+# Target muscles: Quadriceps, Gluteus, Hamstrings, Calves
+
+name: lunge
+display_name: "Lunge"
+type: repetition
+
+# Meta information
+target_muscles:
+  - Quadriceps
+  - Gluteus
+  - Hamstrings
+  - Calves
+equipment: "Bodyweight"
+difficulty: beginner
+default_reps: 10
+default_sets: 3
+rest_time: "60 seconds"
+benefits:
+  - "Improves balance and coordination"
+  - "Strengthens legs unilaterally"
+  - "Enhances hip flexibility"
+description: "Forward lunge for leg strength and balance"
+
+# Angle definitions
+angles:
+  primary:
+    points: [left_hip, left_knee, left_ankle]
+    description: "Front knee angle"
+  
+  back_leg:
+    points: [right_hip, right_knee, right_ankle]
+    description: "Rear knee angle"
+  
+  torso:
+    points: [left_shoulder, left_hip, left_knee]
+    description: "Torso posture angle"
+
+# State machine
+state_order:
+  - bottom
+  - descent
+  - start
+
+states:
+  start:
+    condition: "angle > 160"
+    description: "Starting position - standing upright"
+  
+  descent:
+    condition: "angle > 100 and angle <= 160"
+    description: "Descent phase - stepping forward and lowering"
+  
+  bottom:
+    condition: "angle <= 100"
+    description: "Bottom position - front knee at 90 degrees"
+
+# Counter rule
+counter:
+  trigger_state: bottom
+  from_state: descent
+
+min_rep_duration: 1.0
+
+# Form feedback rules
+feedback:
+  knee_over_toe:
+    condition: "left_knee_x > left_ankle_x + 50"
+    message: "Front knee is traveling past toes! Step further forward."
+    severity: warning
+  
+  torso_leaning:
+    condition: "torso_angle < 70"
+    message: "Keep your torso tall and upright!"
+    severity: warning
+  
+  back_knee_touch:
+    condition: "right_knee_y > right_ankle_y - 20"
+    message: "Avoid slamming rear knee into floor!"
+    severity: info
+
+calibration:
+  enabled: true
+  reps: 3
+
+smoothing:
+  enabled: true
+  window: 3
+
+visualization:
+  lines:
+    - points: [left_hip, left_knee]
+      color: [178, 102, 255]
+      thickness: 2
+    - points: [left_knee, left_ankle]
+      color: [178, 102, 255]
+      thickness: 2
+    - points: [right_hip, right_knee]
+      color: [51, 153, 255]
+      thickness: 2
+    - points: [right_knee, right_ankle]
+      color: [51, 153, 255]
+      thickness: 2
+  
+  circles:
+    - point: left_hip
+      color: [178, 102, 255]
+      radius: 8
+    - point: left_knee
+      color: [178, 102, 255]
+      radius: 8
+    - point: left_ankle
+      color: [178, 102, 255]
+      radius: 8
+    - point: right_hip
+      color: [51, 153, 255]
+      radius: 8
+    - point: right_knee
+      color: [51, 153, 255]
+      radius: 8
+    - point: right_ankle
+      color: [51, 153, 255]
+      radius: 8

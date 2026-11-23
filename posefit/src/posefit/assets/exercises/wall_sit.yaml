@@ -1,0 +1,57 @@
+# Wall Sit Exercise Definition
+# Duration-based isometric leg hold exercise
+
+name: wall_sit
+display_name: "Wall Sit"
+type: duration
+
+target_muscles:
+  - Quadriceps
+  - Glutes
+equipment: "Wall"
+difficulty: beginner
+default_reps: 3
+default_sets: 1
+target_duration: 30
+description: "Isometric hold against wall for quad endurance"
+
+# Duration settings
+hold_state: holding
+
+angles:
+  primary:
+    points: [left_hip, left_knee, left_ankle]
+    description: "Knee angle"
+
+state_order:
+  - holding
+  - lowering
+  - standing
+
+states:
+  standing:
+    condition: "angle > 150"
+    description: "Standing position against wall"
+  
+  lowering:
+    condition: "angle > 100 and angle <= 150"
+    description: "Lowering hips into position"
+  
+  holding:
+    condition: "angle <= 100"
+    description: "Wall sit hold at 90 degrees - timer active"
+
+feedback:
+  too_high:
+    condition: "angle > 100"
+    message: "Lower down - aim for thighs parallel to floor (90 degrees)"
+    severity: warning
+
+visualization:
+  lines:
+    - points: [left_hip, left_knee]
+      color: [0, 128, 0]
+      thickness: 4
+    - points: [left_knee, left_ankle]
+      color: [0, 128, 0]
+      thickness: 4

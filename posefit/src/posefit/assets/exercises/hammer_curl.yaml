@@ -1,0 +1,151 @@
+# Hammer Curl Exercise Definition
+# Bilateral exercise - left and right arms counted independently
+
+name: hammer_curl
+display_name: "Hammer Curl"
+type: repetition
+bilateral: true
+
+# Meta information
+target_muscles:
+  - Biceps
+  - Brachialis
+  - Forearms
+equipment: "Dumbbells"
+difficulty: beginner
+default_reps: 8
+default_sets: 3
+rest_time: "60 seconds"
+benefits:
+  - "Improves bicep and forearm strength"
+  - "Enhances grip strength"
+  - "Targets brachialis for arm thickness"
+description: "Dumbbell hammer curl for bicep development"
+
+# Bilateral settings
+sides:
+  - left
+  - right
+
+# Angle definitions
+angles:
+  left:
+    points: [left_shoulder, left_elbow, left_wrist]
+    description: "Left arm elbow angle"
+  
+  right:
+    points: [right_shoulder, right_elbow, right_wrist]
+    description: "Right arm elbow angle"
+  
+  left_alignment:
+    points: [left_elbow, left_shoulder, left_hip]
+    description: "Left arm torso alignment angle"
+  
+  right_alignment:
+    points: [right_elbow, right_shoulder, right_hip]
+    description: "Right arm torso alignment angle"
+
+# State machine
+state_order:
+  - down
+  - up
+  - flex
+
+states:
+  flex:
+    condition: "angle > 155"
+    description: "Starting position - arms fully extended"
+  
+  up:
+    condition: "angle > 47 and angle <= 155"
+    description: "Curling upward phase"
+  
+  down:
+    condition: "angle <= 47"
+    description: "Peak contraction - rep counted"
+
+# Counter rule
+counter:
+  trigger_state: down
+  from_state: up
+
+# Temporal filter (seconds)
+min_rep_duration: 0.8
+
+# Form feedback rules
+feedback:
+  too_fast:
+    condition: "angle < 40"
+    message: "Good squeeze! Hold briefly at the top."
+    severity: info
+  
+  partial_rep:
+    condition: "angle > 160"
+    message: "Extend fully between reps."
+    severity: warning
+
+# Calibration
+calibration:
+  enabled: true
+  reps: 3
+
+# Smoothing
+smoothing:
+  enabled: true
+  window: 3
+
+# Visualization
+visualization:
+  lines:
+    - points: [left_shoulder, left_elbow]
+      color: [0, 0, 255]
+      thickness: 4
+    - points: [left_elbow, left_wrist]
+      color: [0, 0, 255]
+      thickness: 4
+    - points: [right_shoulder, right_elbow]
+      color: [0, 0, 255]
+      thickness: 4
+    - points: [right_elbow, right_wrist]
+      color: [0, 0, 255]
+      thickness: 4
+  
+  circles:
+    - point: left_shoulder
+      color: [0, 0, 255]
+      radius: 8
+    - point: left_elbow
+      color: [0, 0, 255]
+      radius: 8
+    - point: left_wrist
+      color: [0, 0, 255]
+      radius: 8
+    - point: right_shoulder
+      color: [0, 0, 255]
+      radius: 8
+    - point: right_elbow
+      color: [0, 0, 255]
+      radius: 8
+    - point: right_wrist
+      color: [0, 0, 255]
+      radius: 8
+  
+  angle_display:
+    - angle: left
+      position: left_elbow
+      offset: [10, -10]
+      label: "Left Angle"
+    - angle: right
+      position: right_elbow
+      offset: [10, -10]
+      label: "Right Angle"
+  
+  gauge_meters:
+    - angle: right
+      position: [1200, 80]
+      radius: 50
+      label: "Right Gauge"
+    - angle: left
+      position: [1200, 240]
+      radius: 50
+      label: "Left Gauge"

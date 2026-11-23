@@ -1,0 +1,58 @@
+# Glute Bridge Exercise Definition
+name: glute_bridge
+display_name: "Glute Bridge"
+type: repetition
+
+target_muscles:
+  - Glutes
+  - Hamstrings
+  - Core
+equipment: "Bodyweight"
+difficulty: beginner
+default_reps: 12
+default_sets: 3
+description: "Hip bridge for glute activation and hip extension"
+
+angles:
+  primary:
+    points: [left_shoulder, left_hip, left_knee]
+    description: "Hip extension angle"
+
+state_order:
+  - up
+  - lift
+  - down
+
+states:
+  down:
+    condition: "angle < 120"
+    description: "Hips resting on floor"
+  
+  lift:
+    condition: "angle >= 120 and angle < 165"
+    description: "Lifting hips toward ceiling"
+  
+  up:
+    condition: "angle >= 165"
+    description: "Full hip extension lockout - rep counted"
+
+counter:
+  trigger_state: up
+  from_state: lift
+
+min_rep_duration: 0.8
+
+feedback:
+  incomplete:
+    condition: "angle < 160"
+    message: "Squeeze glutes and extend hips fully!"
+    severity: info
+
+visualization:
+  lines:
+    - points: [left_shoulder, left_hip]
+      color: [255, 105, 180]
+      thickness: 4
+    - points: [left_hip, left_knee]
+      color: [255, 105, 180]
+      thickness: 4

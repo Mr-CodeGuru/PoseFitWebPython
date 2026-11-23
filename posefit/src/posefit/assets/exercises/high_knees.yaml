@@ -1,0 +1,77 @@
+# High Knees Exercise Definition
+# Bilateral cardio movement - left and right knees tracked independently
+
+name: high_knees
+display_name: "High Knees"
+type: repetition
+bilateral: true
+
+sides:
+  - left
+  - right
+
+target_muscles:
+  - Hip Flexors
+  - Quads
+  - Core
+equipment: "Bodyweight"
+difficulty: beginner
+default_reps: 20
+default_sets: 3
+description: "Running in place with high knee lifts"
+
+angles:
+  left:
+    points: [left_shoulder, left_hip, left_knee]
+    description: "Left hip angle"
+
+  right:
+    points: [right_shoulder, right_hip, right_knee]
+    description: "Right hip angle"
+
+  primary:
+    points: [left_shoulder, left_hip, left_knee]
+    description: "Left hip angle"
+
+  right_side:
+    points: [right_shoulder, right_hip, right_knee]
+    description: "Right hip angle"
+
+state_order:
+  - up
+  - lift
+  - down
+
+states:
+  down:
+    condition: "angle > 150"
+    description: "Leg straight down"
+  
+  lift:
+    condition: "angle > 100 and angle <= 150"
+    description: "Lifting knee upward"
+  
+  up:
+    condition: "angle <= 100"
+    description: "Knee driven high - rep counted"
+
+counter:
+  trigger_state: up
+  from_state: lift
+
+min_rep_duration: 0.2
+
+feedback:
+  knee_low:
+    condition: "angle > 110"
+    message: "Drive knee higher - aim for hip height!"
+    severity: info
+
+visualization:
+  lines:
+    - points: [left_hip, left_knee]
+      color: [255, 0, 0]
+      thickness: 4
+    - points: [right_hip, right_knee]
+      color: [255, 0, 0]
+      thickness: 4

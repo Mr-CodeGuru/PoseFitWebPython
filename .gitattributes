@@ -1,0 +1,42 @@
+# Set default behavior to automatically normalize line endings
+* text=auto eol=lf
+
+# Explicit text files
+*.py text diff=python
+*.pyi text diff=python
+*.toml text
+*.yaml text
+*.yml text
+*.json text
+*.md text
+*.txt text
+*.rst text
+*.sh text eol=lf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Web frontend sources
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+*.mjs text
+*.cjs text
+*.css text
+*.html text
+*.svg text
+
+# Binary formats
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp4 binary
+*.webm binary
+*.mov binary
+*.wasm binary
+*.bin binary
+*.zip binary
+*.tar.gz binary

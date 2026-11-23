@@ -1,0 +1,91 @@
+# Lateral Raise Exercise Definition
+
+name: lateral_raise
+display_name: "Lateral Raise"
+type: repetition
+
+target_muscles:
+  - Shoulders (Lateral Deltoid)
+  - Upper Trapezius
+equipment: "Dumbbells"
+difficulty: beginner
+default_reps: 12
+default_sets: 3
+rest_time: "45 seconds"
+benefits:
+  - "Builds shoulder width"
+  - "Improves shoulder stability"
+  - "Isolates lateral deltoid"
+description: "Side raise for shoulder development"
+
+angles:
+  primary:
+    points: [left_hip, left_shoulder, left_elbow]
+    description: "Left arm elevation angle"
+  
+  right_arm:
+    points: [right_hip, right_shoulder, right_elbow]
+    description: "Right arm elevation angle"
+
+state_order:
+  - top
+  - raise
+  - start
+
+states:
+  start:
+    condition: "angle < 30"
+    description: "Starting position - arms hanging at sides"
+  
+  raise:
+    condition: "angle >= 30 and angle < 80"
+    description: "Raising arms laterally"
+  
+  top:
+    condition: "angle >= 80"
+    description: "Top position at shoulder height - rep counted"
+
+counter:
+  trigger_state: top
+  from_state: raise
+
+min_rep_duration: 0.6
+
+feedback:
+  swinging:
+    condition: "abs(left_hip_y - right_hip_y) > 30"
+    message: "Avoid swinging your torso! Use strict, controlled movement."
+    severity: warning
+  
+  too_high:
+    condition: "angle > 100"
+    message: "Do not raise arms above shoulder height!"
+    severity: warning
+  
+  bent_elbows:
+    condition: "abs(left_shoulder_x - left_wrist_x) < 50"
+    message: "Keep a slight bend in elbows without over-bending!"
+    severity: info
+
+calibration:
+  enabled: true
+  reps: 3
+
+smoothing:
+  enabled: true
+  window: 3
+
+visualization:
+  lines:
+    - points: [left_shoulder, left_elbow]
+      color: [147, 112, 219]
+      thickness: 3
+    - points: [left_elbow, left_wrist]
+      color: [147, 112, 219]
+      thickness: 3
+    - points: [right_shoulder, right_elbow]
+      color: [147, 112, 219]
+      thickness: 3
+    - points: [right_elbow, right_wrist]
+      color: [147, 112, 219]
+      thickness: 3
